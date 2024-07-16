@@ -8,6 +8,15 @@ from test import evaluate_test_cases
 
 
 class Solution:
+    """
+    Steps for solving the problem
+    1.State the problem in own words
+    2.Figure out example input/output values covering edge cases as well
+    3.Write plain English pseudo code
+    4.Implement, test and fix issues
+    5.Analyze complexity and efficiency
+    6.Fix complexities and efficiencies, repeat 3-6
+    """
     def solution(self, input1: List[int], input2: int) -> int:
         return -1
 
