@@ -26,4 +26,3 @@ if __name__ == "__main__":
     test_cases = load_test_cases()
     solution = Solution()
     evaluate_test_cases(solution.solution, test_cases)
-    evaluate_test_cases()
