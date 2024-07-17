@@ -10,7 +10,7 @@ from test import evaluate_test_cases
 class Solution:
     """
     Steps for solving the problem
-    1.State the problem in own words
+    1.State the problem in own words. Identify input/output formats
     2.Figure out example input/output values covering edge cases as well
     3.Write plain English pseudo code
     4.Implement, test and fix issues
