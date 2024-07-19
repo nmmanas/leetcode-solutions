@@ -29,23 +29,17 @@ class TreeNode:
             right = self.tree_to_tuple(node.right)
         return (left, node.val, right)
     
-    def display_tree(self, space='\t', level=0):
-        # print(node.key if node else None, level)
-
-        # If the node is empty
-        if self is None:
-            print(space*level + '∅')
-            return
-
-        # If the node is a leaf
-        if self.left is None and self.right is None:
-            print(space*level + str(self.val))
-            return
-
-        # If the node has children
-        self.display_tree(self.right, space, level+1)
-        print(space*level + str(self.val))
-        self.display_tree(self.left,space, level+1)
+    @staticmethod
+    def parse_tuple(data):
+        if data is None:
+            node = None
+        elif isinstance(data, tuple) and len(data) == 3:
+            node = TreeNode(data[1])
+            node.left = TreeNode.parse_tuple(data[0])
+            node.right = TreeNode.parse_tuple(data[2])
+        else:
+            node = TreeNode(data)
+        return node
 
 class Solution:
     """
@@ -97,20 +91,6 @@ class Solution:
 
         return max_length
 
-        
-
-def parse_tuple(data):
-    # print(data)
-    if isinstance(data, tuple) and len(data) == 3:
-        node = TreeNode(data[1])
-        node.left = parse_tuple(data[0])
-        node.right = parse_tuple(data[2])
-    elif data is None:
-        node = None
-    else:
-        node = TreeNode(data)
-    return node
-
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases:
@@ -127,49 +107,49 @@ def load_test_cases():
     # 1. root node only
     test_cases.append({
         'input': {
-            'root': parse_tuple((1)),
+            'root': TreeNode.parse_tuple((1)),
         }, 'output': 0
     })
 
     # 2. root and one child node
     test_cases.append({
         'input': {
-            'root': parse_tuple((2,1,None)),
+            'root': TreeNode.parse_tuple((2,1,None)),
         }, 'output': 1
     })
 
     # 3. root and two children
     test_cases.append({
         'input': {
-            'root': parse_tuple((2,1,3)),
+            'root': TreeNode.parse_tuple((2,1,3)),
         }, 'output': 2
     })
 
     # 4. max length passing through root node
     test_cases.append({
         'input': {
-            'root': parse_tuple(((3,6,None),2,((6,3,4),5,(6,7,8)))),
+            'root': TreeNode.parse_tuple(((3,6,None),2,((6,3,4),5,(6,7,8)))),
         }, 'output': 5
     })
 
     # 5. max length not passing through root node
     test_cases.append({
         'input': {
-            'root': parse_tuple((None,2,((6,3,(None,4,(None,8,5))),5,(6,7,8)))),
+            'root': TreeNode.parse_tuple((None,2,((6,3,(None,4,(None,8,5))),5,(6,7,8)))),
         }, 'output': 6
     })
 
     # 6. leetcode testcase 1
     test_cases.append({
         'input': {
-            'root': parse_tuple(((4,2,5),1,3)),
+            'root': TreeNode.parse_tuple(((4,2,5),1,3)),
         }, 'output': 3
     })
 
     # 7. leetcode testcase 2
     test_cases.append({
         'input': {
-            'root': parse_tuple((2,1,None)),
+            'root': TreeNode.parse_tuple((2,1,None)),
         }, 'output': 1
     })
 
