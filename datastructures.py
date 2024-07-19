@@ -1,5 +1,12 @@
 class TreeNode():
     def __init__(self, key):
+        """
+        This Python function initializes a binary tree node with a given key value and sets its left and
+        right child nodes to None.
+        
+        :param key: The `key` parameter in the `__init__` method is used to initialize the key value of
+        the node in a binary tree. It represents the value stored in the node
+        """
         self.key, self.left, self.right = key, None, None
 
     def height(self):
