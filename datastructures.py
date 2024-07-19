@@ -18,6 +18,20 @@ class TreeNode():
         return (TreeNode.traverse_in_order(self.left) +
                 [self.key] +
                 TreeNode.traverse_in_order(self.right))
+    
+    def traverse_pre_order(self):
+        if self is None:
+            return []
+        return ([self.key] +  
+                TreeNode.traverse_pre_order(self.left) + 
+                TreeNode.traverse_pre_order(self.right))
+    
+    def traverse_post_order(self):
+        if self is None:
+            return []
+        return (TreeNode.traverse_post_order(self.left) + 
+                TreeNode.traverse_post_order(self.right) + 
+                [self.key])
 
     def display_keys(self, space='\t', level=0):
         # If the node is empty
