@@ -4,42 +4,8 @@ Leetcode link: https://leetcode.com/problems/diameter-of-binary-tree/
 
 from typing import Optional
 
+from datastructures import TreeNode
 from test import evaluate_test_cases
-
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-    def __repr__(self):
-        return str(self.tree_to_tuple(self))
-    
-    def __str__(self):
-        return self.__repr__()
-
-    def tree_to_tuple(self, node):
-        if not node.left and not node.right:
-            return node.val
-        left = None
-        right = None
-        if node.left:
-            left = self.tree_to_tuple(node.left)
-        if node.right:
-            right = self.tree_to_tuple(node.right)
-        return (left, node.val, right)
-    
-    @staticmethod
-    def parse_tuple(data):
-        if data is None:
-            node = None
-        elif isinstance(data, tuple) and len(data) == 3:
-            node = TreeNode(data[1])
-            node.left = TreeNode.parse_tuple(data[0])
-            node.right = TreeNode.parse_tuple(data[2])
-        else:
-            node = TreeNode(data)
-        return node
 
 class Solution:
     """
