@@ -16,13 +16,31 @@ class Solution:
     4.Implement, test and fix issues
     5.Analyze complexity and efficiency
     6.Fix complexities and efficiencies, repeat 3-6
+
+    Question:
+    <question from leetcode>
+
+    Constraints:
+    <constraints from leetcode>
+
+    Problem statement (Step 1):
+    <problem in own words>
+
+    Input/Output formats (Step 1):
     """
     def solution(self, input1: List[int], input2: int) -> int:
+        """
+        Pseudo Code (Step 3):
+
+        Analyze Complexity (Step 5):
+        
+        """
         return -1
 
 def load_test_cases():
     """
-    List of identified test cases covering standard, edge cases
+    List of identified test cases covering standard, edge cases (Step 2):
+    1. first edge case
     """
     test_cases = []
     # 1. 1 pile, hours less than pile size
