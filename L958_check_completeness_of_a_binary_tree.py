@@ -2,7 +2,7 @@
 Leetcode link: https://leetcode.com/problems/check-completeness-of-a-binary-tree/
 """
 
-from collections import defaultdict
+from collections import deque
 from typing import Optional
 
 from datastructures import TreeNode
@@ -38,40 +38,77 @@ class Solution:
     Input/Output formats (Step 1):
     """
     def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
-        """
-        Pseudo Code (Step 3):
-        DFS
-        1. go through each node, and make a reference to their level
-        2. traverse through each level and see if we find a node after a None
+        # """
+        # Pseudo Code (Step 3):
+        # DFS
+        # 1. go through each node, and make a reference to their level
+        # 2. traverse through each level and see if we find a node after a None
 
-        Analyze Complexity (Step 5):
-        * time complexity is O(2n) => O(n)
-        * space complexity is O(n)
-        """
+        # Analyze Complexity (Step 5):
+        # * time complexity is O(2n) => O(n)
+        # * space complexity is O(n)
+        # """
 
-        levels = defaultdict(list)
+        # levels = defaultdict(list)
 
-        def dfs(root, level=1):
-            levels[level].append(root)
+        # def dfs(root, level=1):
+        #     levels[level].append(root)
 
-            if root is None:
-                return []
+        #     if root is None:
+        #         return []
 
-            dfs(root.left, level+1)
-            dfs(root.right, level+1)
+        #     dfs(root.left, level+1)
+        #     dfs(root.right, level+1)
 
-        dfs(root)
+        # dfs(root)
 
         
-        found = False
-        for _,v in levels.items():
-            for e in v:
-                if found and e is not None:
-                    return False
-                if e is None:
-                    found = True
+        # found = False
+        # for _,v in levels.items():
+        #     for e in v:
+        #         if found and e is not None:
+        #             return False
+        #         if e is None:
+        #             found = True
+
+        # return True
+        """
+        Pseudo Code (Step 3):
+        BFS
+        1. add root to queue
+        2. go through the queue while not empty
+            a. get first from queue
+            b. check if already found None and current node is not None
+                - if yes, return False immediately
+                - if not, check if current node is None, and raise the flag
+                  and continue
+            c. add node's left and right to queue respectively
+        3. return True (ie. haven't found non-completeness)
+
+        Analyze Complexity (Step 5):
+        * time complexity is O(n)
+        * space complexity is O(n/2) => O(n)
+        """
+
+        queue = deque()
+        queue.append(root)
+
+        found_none = False
+
+        while queue:
+            node = queue.popleft()
+
+            if found_none and node:
+                return False
+            elif not node:
+                found_none = True
+                continue
+
+            queue.append(node.left)
+            queue.append(node.right)
 
         return True
+
 
 def load_test_cases():
     """
