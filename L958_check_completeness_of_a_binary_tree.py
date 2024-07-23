@@ -41,8 +41,8 @@ class Solution:
         """
         Pseudo Code (Step 3):
         DFS
-        1. for each node check if the left and right are complete
-        2. for last level, check if the nodes are filled from the left side
+        1. go through each node, and make a reference to their level
+        2. traverse through each level and see if we find a node after a None
 
         Analyze Complexity (Step 5):
         * time complexity is O(2n) => O(n)
