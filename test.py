@@ -8,7 +8,15 @@ class bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     # BOLD = '\033[1m'
-    # UNDERLINE = '\033[4m'
+    UNDERLINE = '\033[4m'
+
+def _str_truncate(data, size=100):
+    data_str = str(data)
+
+    if len(data_str) > size + 3:
+        return data_str[:size] + '...'
+    
+    return data
 
 def evaluate_test_cases(func_to_test, tests):
     """
@@ -35,11 +43,11 @@ def evaluate_test_cases(func_to_test, tests):
     failed = 0
     passed = 0
     for idx, test in enumerate(tests):
-        print(f'Test Case {idx+1}')
+        print(bcolors.UNDERLINE + f'Test Case {idx+1}' + bcolors.ENDC)
         result = func_to_test(**test['input'])
-        print('input:', test['input'])
-        print('expected output:', test['output'])
-        print('actual output:', result)
+        print('input:', _str_truncate(test['input']))
+        print('expected output:', _str_truncate(test['output']))
+        print('actual output:', _str_truncate(result))
         if result==test['output']:
             passed += 1
             print(bcolors.OKGREEN + 'PASSED' + bcolors.ENDC)
@@ -48,6 +56,7 @@ def evaluate_test_cases(func_to_test, tests):
             print(bcolors.FAIL + 'FAILED' + bcolors.ENDC)
         print()
 
+    print(bcolors.UNDERLINE + 'Summary' + bcolors.ENDC)
     print('Total Tests:',(failed+passed))
     print(bcolors.OKGREEN + f'PASSED: {passed}' + bcolors.ENDC)
     print(bcolors.FAIL + f'FAILED: {failed}' + bcolors.ENDC)
