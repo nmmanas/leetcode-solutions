@@ -1,3 +1,6 @@
+import math
+from textwrap import dedent
+from timeit import default_timer as timer
 
 class bcolors:
     # HEADER = '\033[95m'
@@ -16,7 +19,32 @@ def _str_truncate(data, size=100):
     if len(data_str) > size + 3:
         return data_str[:size] + '...'
     
-    return data
+    return data_str
+
+def display_test_case(test_case):
+    print(dedent("""
+    Input:
+    {}
+
+    Expected Output:
+    {}
+    """.format(_str_truncate(test_case['input']), _str_truncate(test_case['output']))))
+
+def display_result(result):
+    actual_output, passed, runtime = result
+    message = bcolors.OKGREEN + 'PASSED' + bcolors.ENDC if passed else bcolors.FAIL + 'FAILED' + bcolors.ENDC
+
+    print(dedent("""
+    Actual Output:
+    {}
+
+    Execution Time:
+    {} ms
+
+    Test Result:
+    {}
+    """.format( _str_truncate(actual_output), runtime, message)))
+
 
 def evaluate_test_cases(func_to_test, tests):
     """
@@ -40,23 +68,24 @@ def evaluate_test_cases(func_to_test, tests):
     }
     ```
     """
-    failed = 0
-    passed = 0
+    failed_count = 0
+    passed_count = 0
     for idx, test in enumerate(tests):
         print(bcolors.UNDERLINE + f'Test Case {idx+1}' + bcolors.ENDC)
-        result = func_to_test(**test['input'])
-        print('input:', _str_truncate(test['input']))
-        print('expected output:', _str_truncate(test['output']))
-        print('actual output:', _str_truncate(result))
-        if result==test['output']:
-            passed += 1
-            print(bcolors.OKGREEN + 'PASSED' + bcolors.ENDC)
+        display_test_case(test)
+        start = timer()
+        actual_output = func_to_test(**test['input'])
+        end = timer()
+        runtime = math.ceil((end - start)*1e6)/1000
+        if actual_output==test['output']:
+            passed_count += 1
         else:
-            failed += 1
-            print(bcolors.FAIL + 'FAILED' + bcolors.ENDC)
-        print()
+            failed_count += 1
+        result = actual_output, actual_output==test['output'], runtime
+        display_result(result)
+
 
     print(bcolors.UNDERLINE + 'Summary' + bcolors.ENDC)
-    print('Total Tests:',(failed+passed))
-    print(bcolors.OKGREEN + f'PASSED: {passed}' + bcolors.ENDC)
-    print(bcolors.FAIL + f'FAILED: {failed}' + bcolors.ENDC)
+    print('Total Tests:',(failed_count+passed_count))
+    print(bcolors.OKGREEN + f'PASSED: {passed_count}' + bcolors.ENDC)
+    print(bcolors.FAIL + f'FAILED: {failed_count}' + bcolors.ENDC)
