@@ -1,3 +1,54 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+    def __repr__(self):
+        return "List <{}>".format(self.to_list())
+    
+    def to_list(self):
+        if not self:
+            return []
+
+        next_value = []
+        
+        if self.next:
+            next_value = self.next.to_list()
+
+        return [self.val] + next_value
+    
+    def __eq__(self, other):
+        return self.to_list()==other.to_list()
+
+    @staticmethod
+    def parse_list(data):
+        root = None
+        previous = None
+
+        for idx, n in enumerate(data):
+
+            list_node = ListNode(n)
+
+            if idx == 0:
+                root = list_node
+            else:
+                previous.next = list_node
+
+            previous = list_node
+
+        return root
+
+    @staticmethod
+    def parse_list_of_lists(data):
+
+        results = []
+
+        for d in data:
+            results.append(ListNode.parse_list(d))
+
+        return results
+
+
 class TreeNode():
     def __init__(self, key):
         """
