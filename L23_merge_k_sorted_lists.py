@@ -41,6 +41,13 @@ class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         """
         Pseudo Code (Step 3):
+        1. create a min-heap
+        2. for each list node add the first element and its value to min-heap
+        3. loop until min-heap is not empty
+            a. get the min value out
+            b. add the min value as the next element in result (or first)
+            b. if there is a next for that element, add it to min-heap
+        4. return the first element of result
 
         Analyze Complexity (Step 5):
         
