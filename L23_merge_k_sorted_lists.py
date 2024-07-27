@@ -59,23 +59,19 @@ class Solution:
                 continue
             heapq.heappush(heap, (list_node.val, idx, list_node))
 
-        root = None
-        previous = None
+        result = ListNode()
+        previous = result
+
         while heap:
-            value, idx, list_node = heapq.heappop(heap)
-            new_node = ListNode(value)
+            _, idx, list_node = heapq.heappop(heap)
 
-            if root is None:
-                root = new_node
-            else:
-                previous.next = new_node
-
-            previous = new_node
+            previous.next = list_node
+            previous = list_node
 
             if list_node.next:
                 heapq.heappush(heap, (list_node.next.val, idx, list_node.next))
 
-        return root
+        return result.next
 
 def load_test_cases():
     """
