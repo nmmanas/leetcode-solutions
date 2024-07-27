@@ -2,6 +2,7 @@
 Leetcode link: https://leetcode.com/problems/merge-k-sorted-lists
 """
 
+import heapq
 from typing import List, Optional
 
 from datastructures import ListNode
@@ -52,7 +53,29 @@ class Solution:
         Analyze Complexity (Step 5):
         
         """
-        return -1
+        heap = []
+        for idx, list_node in enumerate(lists):
+            if not list_node:
+                continue
+            heapq.heappush(heap, (list_node.val, idx, list_node))
+
+        root = None
+        previous = None
+        while heap:
+            value, idx, list_node = heapq.heappop(heap)
+            new_node = ListNode(value)
+
+            if root is None:
+                root = new_node
+            else:
+                previous.next = new_node
+
+            previous = new_node
+
+            if list_node.next:
+                heapq.heappush(heap, (list_node.next.val, idx, list_node.next))
+
+        return root
 
 def load_test_cases():
     """
