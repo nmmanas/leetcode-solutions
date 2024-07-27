@@ -22,21 +22,18 @@ class ListNode:
 
     @staticmethod
     def parse_list(data):
-        root = None
-        previous = None
+        temp = ListNode()
+        previous = temp
 
         for idx, n in enumerate(data):
 
             list_node = ListNode(n)
 
-            if idx == 0:
-                root = list_node
-            else:
-                previous.next = list_node
+            previous.next = list_node
 
             previous = list_node
 
-        return root
+        return temp.next
 
     @staticmethod
     def parse_list_of_lists(data):
