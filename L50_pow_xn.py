@@ -63,9 +63,17 @@ class Solution:
             example: x^10 = (x^2)^5
 
         Analyze Complexity (Step 5):
-        Time complexity is O(n) where n is the power we try to raise to
-        Space complexity is O(1) since we don't use additional space
-        based on the inputs
+        Time complexity for odd numbers is T(n) = T(n-1) + O(1)
+        for even numbers, its T(n) = T(n/2) + O(1)
+        Since after an even number, immediate we'd hit an odd number, it can
+        also be considered as T(n/2) + O(1)
+        Since n is halved at each call, we need to call the function log2^n times
+        therefore T(n) = O(logn)
+
+        Space complexity is calculated for the call stack since we don't use
+        any additional space relative to the inputs.
+        Since we call the function recursively logn times, 
+        Space complexity is also O(logn)
         """
         def pow_rec(x, n):
             if not n:
