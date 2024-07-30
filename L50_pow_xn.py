@@ -54,24 +54,31 @@ class Solution:
     def myPow(self, x: float, n: int) -> float:
         """
         Pseudo Code (Step 3):
-        1. loop n times
-        2. on each iteration multiply result by x and save back to result
-        3. return final result
+        recursively calculate
+        1. base case, if n==0, return 1
+        2. if n is negative, return 1/pow(x, abs(n))
+        3. if n is odd number return x*pow(x, n-1)
+        4. if n is even number, reduce problem by 2, return pow(x*x, n/2)
+            this is possible because x^n = (x^2)^(n/2)
+            example: x^10 = (x^2)^5
+
         Analyze Complexity (Step 5):
         Time complexity is O(n) where n is the power we try to raise to
         Space complexity is O(1) since we don't use additional space
         based on the inputs
         """
-        k = abs(n)
-        result = 1
-        for _ in range(k):
-            result *= x
-  
-        if n>=0:
-            return round(result,5)
-        else:
-            return round(1/result, 5)
+        def pow_rec(x, n):
+            if not n:
+                return 1
+            if n < 0:
+                return 1 / self.myPow(x, -n)
+            if n % 2:
+                return x * self.myPow(x, n-1)
+            return self.myPow(x*x, n/2)
+        
+        return round(pow_rec(x, n), 5)
 
+    
 def load_test_cases():
     """
     List of identified test cases covering standard, edge cases (Step 2):
@@ -121,20 +128,20 @@ def load_test_cases():
             'n': -2
         }, 'output': 0.25000
     })
-    # # 7. n is very large
-    # test_cases.append({
-    #     'input': {
-    #         'x': 1.00000,
-    #         'n': pow(2,31)-1
-    #     }, 'output': 1.00000
-    # })
-    # # 8. n is very small
-    # test_cases.append({
-    #     'input': {
-    #         'x': 1.00000,
-    #         'n': pow(-2,31)-1
-    #     }, 'output': 1.00000
-    # })
+    # 7. n is very large
+    test_cases.append({
+        'input': {
+            'x': 1.00000,
+            'n': pow(2,31)-1
+        }, 'output': 1.00000
+    })
+    # 8. n is very small
+    test_cases.append({
+        'input': {
+            'x': 1.00000,
+            'n': pow(-2,31)-1
+        }, 'output': 1.00000
+    })
     # 9. x is zero, n > 0
     test_cases.append({
         'input': {
