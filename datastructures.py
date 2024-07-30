@@ -25,7 +25,7 @@ class ListNode:
         temp = ListNode()
         previous = temp
 
-        for idx, n in enumerate(data):
+        for n in data:
 
             list_node = ListNode(n)
 
