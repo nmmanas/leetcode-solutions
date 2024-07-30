@@ -1,6 +1,7 @@
 import math
 from textwrap import dedent
 from timeit import default_timer as timer
+import tracemalloc
 
 class bcolors:
     # HEADER = '\033[95m'
@@ -13,7 +14,7 @@ class bcolors:
     # BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def _str_truncate(data, size=100):
+def _str_truncate(data, size=200):
     data_str = str(data)
 
     if len(data_str) > size + 3:
@@ -31,8 +32,9 @@ def display_test_case(test_case):
     """.format(_str_truncate(test_case['input']), _str_truncate(test_case['output']))))
 
 def display_result(result):
-    actual_output, passed, runtime = result
+    actual_output, passed, runtime, traced_memory = result
     message = bcolors.OKGREEN + 'PASSED' + bcolors.ENDC if passed else bcolors.FAIL + 'FAILED' + bcolors.ENDC
+    memory_usage = 'Current %.2fKB, Peak %.2fKB' % tuple(x / (1024) for x in traced_memory)
 
     print(dedent("""
     Actual Output:
@@ -40,10 +42,13 @@ def display_result(result):
 
     Execution Time:
     {} ms
+                 
+    Memory Use:
+    {}
 
     Test Result:
     {}
-    """.format( _str_truncate(actual_output), runtime, message)))
+    """.format( _str_truncate(actual_output), runtime, memory_usage, message)))
 
 
 def evaluate_test_cases(func_to_test, tests):
@@ -73,15 +78,18 @@ def evaluate_test_cases(func_to_test, tests):
     for idx, test in enumerate(tests):
         print(bcolors.UNDERLINE + f'Test Case {idx+1}' + bcolors.ENDC)
         display_test_case(test)
+        tracemalloc.start()
         start = timer()
         actual_output = func_to_test(**test['input'])
         end = timer()
+        traced_memory = tracemalloc.get_traced_memory()
+        tracemalloc.clear_traces()
         runtime = math.ceil((end - start)*1e6)/1000
         if actual_output==test['output']:
             passed_count += 1
         else:
             failed_count += 1
-        result = actual_output, actual_output==test['output'], runtime
+        result = actual_output, actual_output==test['output'], runtime, traced_memory
         display_result(result)
 
 
